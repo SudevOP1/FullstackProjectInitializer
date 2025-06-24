@@ -1,9 +1,12 @@
 TAKE_INPUT = False
 OVERRIDE_EXISTING_PROJECT_FILENAME = True
 
+INITIALIZE_GIT = True
+GIT_COMMIT_NAME = "initial"
 DJANGO_PROJECT_NAME = "backend"
 DJANGO_APP_NAME = "base"
 REACT_PROJECT_NAME = "frontend"
+OPEN_VSCODES = False
 
 PROJECT_URLS_PY_LINES = [
     "from django.contrib import admin",
