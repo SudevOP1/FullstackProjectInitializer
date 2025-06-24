@@ -48,14 +48,14 @@ def run_cmds(cwd, cmds, shell):
     return True
 
 def create_fullstack_project(PROJECT_NAME):
-    global TAKE_INPUT, OVERRIDE_EXISTING_PROJECT_FILENAME, DJANGO_PROJECT_NAME, DJANGO_APP_NAME, REACT_PROJECT_NAME, PROJECT_URLS_PY_LINES, APP_URLS_PY_LINES, APP_VIEWS_PY_LINES, DJANGO_PACKAGES_LINES, VITE_CONFIG_JS_LINES, INDEX_HTML_LINES, APP_JSX_LINES, MAIN_JSX_LINES
+    global TAKE_INPUT, OVERRIDE_EXISTING_PROJECT_FILENAME, DJANGO_PROJECT_NAME, DJANGO_APP_NAME, GIT_COMMIT_NAME, REACT_PROJECT_NAME, PROJECT_URLS_PY_LINES, APP_URLS_PY_LINES, APP_VIEWS_PY_LINES, DJANGO_PACKAGES_LINES, VITE_CONFIG_JS_LINES, INDEX_HTML_LINES, APP_JSX_LINES, MAIN_JSX_LINES
 
     # get input
     if TAKE_INPUT:
-        GIT_COMMIT_NAME = input("git commit name: ")
         DJANGO_PROJECT_NAME = input("django project name: ")
         DJANGO_APP_NAME = input("django app name: ")
         REACT_PROJECT_NAME = input("react project name: ")
+        GIT_COMMIT_NAME = input("git commit name: ")
 
     # create folder (project name)
     try:
@@ -82,7 +82,7 @@ def create_fullstack_project(PROJECT_NAME):
         cwd=apps_dir, shell=False,
         cmd=["django-admin", "startproject", DJANGO_PROJECT_NAME],
     ): return
-    print(f"backend project {DJANGO_PROJECT_NAME} initialized")
+    print(f"backend project \"{DJANGO_PROJECT_NAME}\" initialized")
 
     # create empty files in backend folder (.gitignore, packages.txt)
     empty_files = [".gitignore", "packages.txt"]
@@ -96,7 +96,7 @@ def create_fullstack_project(PROJECT_NAME):
         cmd=["python", "manage.py", "startapp", DJANGO_APP_NAME],
         shell=False,
     ): return
-    print(f"backend app {DJANGO_APP_NAME} initialized")
+    print(f"backend app \"{DJANGO_APP_NAME}\" initialized")
 
     # update backend's .gitignore
     if not replace_file_contents(
@@ -156,7 +156,7 @@ def create_fullstack_project(PROJECT_NAME):
         cmd=["npm", "install"],
         shell=True,
     ): return
-    print(f"frontend project {REACT_PROJECT_NAME} initialized")
+    print(f"frontend project \"{REACT_PROJECT_NAME}\" initialized")
 
     # install tailwind
     if not run_cmd(
@@ -198,7 +198,7 @@ def create_fullstack_project(PROJECT_NAME):
         GIT_COMMIT_NAME = "\"" + GIT_COMMIT_NAME + "\""
         if not run_cmds(
             cwd=PROJECT_NAME, shell=False,
-            cmd=[
+            cmds=[
                 ["git", "init"],
                 ["git", "add", "."],
                 ["git", "commit", "-m", GIT_COMMIT_NAME],
@@ -223,6 +223,31 @@ def create_fullstack_project(PROJECT_NAME):
 
     # delete __pycache__ created from this script
     if os.path.isdir("__pycache__"): shutil.rmtree("__pycache__")
+
+    # print next steps for user
+    print(f"""
+\033[92m========================================\033[0m
+\033[92mFullstack project \"{PROJECT_NAME}\" initialized successfully!\033[0m
+\033[93m👉 NEXT STEPS:\033[0m
+
+\033[94mbackend (django):\033[0m
+cd {PROJECT_NAME}/apps/backend
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
+\033[94mfrontend (react):\033[0m
+cd {PROJECT_NAME}/apps/frontend
+npm run dev
+
+\033[94mgit (optional if pushing to github):\033[0m
+cd {PROJECT_NAME}
+git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
+git branch -M main
+git push origin main
+
+\033[92mHappy coding!\033[0m
+    """)
 
 if __name__ == "__main__":
     PROJECT_NAME = sys.argv[1] if len(sys.argv) > 1 else input("project name: ")
