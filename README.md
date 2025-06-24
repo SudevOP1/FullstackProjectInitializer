@@ -20,7 +20,6 @@ This script automates the tedious setup of a fullstack app by:<br>
 - Cleaning up unnecessary react files (bloatware)<br>
 - Setting up Git and making an initial commit<br>
 - Optionally launching backend and frontend in VS Code<br>
-<br>
 
 ## 🚀 Usage
 
@@ -54,6 +53,7 @@ You can also customize:
 - Tailwind config
 - Vite templates
 - File contents
+<br>
 
 ## 📁 Folder Structure
 
