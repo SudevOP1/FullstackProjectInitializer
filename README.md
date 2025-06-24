@@ -47,7 +47,7 @@ OPEN_VSCODES = True
 DJANGO_PROJECT_NAME = "backend"
 DJANGO_APP_NAME = "base"
 REACT_PROJECT_NAME = "frontend"
-GIT_COMMIT_NAME = "initial commit"
+GIT_COMMIT_NAME = "initial"
 ```
 You can also customize:
 - Django starter URLs & views
